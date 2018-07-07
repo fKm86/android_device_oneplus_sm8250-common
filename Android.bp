@@ -1,3 +1,8 @@
+<<<<<<< HEAD
 soong_namespace {
     imports: ["hardware/qcom-caf/bootctrl"],
 }
+
+subdirs = [
+    "tri-state-key"
+]
