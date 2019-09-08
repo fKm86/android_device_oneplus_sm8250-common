@@ -144,18 +144,7 @@ Return<bool> FingerprintInscreen::handleAcquired(int32_t acquiredInfo, int32_t v
 }
 
 Return<bool> FingerprintInscreen::handleError(int32_t error, int32_t vendorCode) {
-    switch (error) {
-        case FINGERPRINT_ERROR_CANCELED:
-            if (vendorCode == 0) {
-                this->mIsEnrolling = false;
-            }
-            return false;
-        case FINGERPRINT_ERROR_VENDOR:
-            // Ignore vendorCode 6
-            return vendorCode == 6;
-        default:
-            return false;
-    }
+    return error == FINGERPRINT_ERROR_VENDOR && vendorCode == 5;
 }
 
 Return<void> FingerprintInscreen::setLongPressEnabled(bool enabled) {
