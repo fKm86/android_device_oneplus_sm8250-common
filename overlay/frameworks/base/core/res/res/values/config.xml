@@ -376,4 +376,7 @@
 
     <!-- Whether device has warp charging support -->
     <bool name="config_hasWarpCharger">true</bool>
+
+    <!-- Whether device supports variable refresh rate -->
+    <bool name="config_hasVariableRefreshRate">true</bool>
 </resources>
