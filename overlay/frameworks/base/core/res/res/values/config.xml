@@ -366,6 +366,11 @@
          in hardware. -->
     <bool name="config_setColorTransformAccelerated">true</bool>
 
+    <!-- Whether device supports sensor based doze customizations -->
+    <bool name="config_dozePulsePickup">true</bool>
+    <bool name="config_dozePulseTilt">true</bool>
+    <bool name="config_dozePulseProximity">true</bool>
+    
     <!-- If face auth sends the user directly to home/last open app, or stays on keyguard -->
     <bool name="config_faceAuthDismissesKeyguard">false</bool>
 </resources>
