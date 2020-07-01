@@ -88,7 +88,7 @@
         <!-- DC-Dimming Tile -->
         <service
             android:name=".Services.DCModeTileService"
-            android:icon="@drawable/ic_dc_mode"
+            android:icon="@drawable/ic_dimming_off"
             android:label="@string/tile_dc_mode"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
