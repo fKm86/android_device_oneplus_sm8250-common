@@ -20,7 +20,6 @@ package org.aosp.device.DeviceSettings;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.Intent;
@@ -41,7 +40,6 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceGroup;
-import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.TwoStatePreference;
 
@@ -55,7 +53,6 @@ public class DeviceSettings extends PreferenceFragment
     private static final String KEY_CATEGORY_GRAPHICS = "graphics";
     public static final String KEY_SRGB_SWITCH = "srgb";
     public static final String KEY_HBM_SWITCH = "hbm";
-    public static final String KEY_AUTO_HBM_SWITCH = "auto_hbm";
     public static final String KEY_DC_SWITCH = "dc";
     public static final String KEY_DCI_SWITCH = "dci";
     public static final String KEY_NIGHT_SWITCH = "night";
@@ -72,7 +69,6 @@ public class DeviceSettings extends PreferenceFragment
     public static final String KEY_SETTINGS_PREFIX = "device_setting_";
 
     private static TwoStatePreference mHBMModeSwitch;
-    private static TwoStatePreference mAutoHBMSwitch;
     private static TwoStatePreference mDCModeSwitch;
     private static TwoStatePreference mRefreshRate;
     private static SwitchPreference mAutoRefreshRate;
@@ -106,10 +102,6 @@ public class DeviceSettings extends PreferenceFragment
         mHBMModeSwitch.setEnabled(HBMModeSwitch.isSupported());
         mHBMModeSwitch.setChecked(HBMModeSwitch.isCurrentlyEnabled(this.getContext()));
         mHBMModeSwitch.setOnPreferenceChangeListener(new HBMModeSwitch());
-
-        mAutoHBMSwitch = (TwoStatePreference) findPreference(KEY_AUTO_HBM_SWITCH);
-        mAutoHBMSwitch.setChecked(PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(DeviceSettings.KEY_AUTO_HBM_SWITCH, false));
-        mAutoHBMSwitch.setOnPreferenceChangeListener(this);
 
         if (getResources().getBoolean(R.bool.config_deviceHasHighRefreshRate)) {
             mAutoRefreshRate = (SwitchPreference) findPreference(KEY_AUTO_REFRESH_RATE);
@@ -148,19 +140,10 @@ public class DeviceSettings extends PreferenceFragment
             } else {
                 this.getContext().stopService(fpsinfo);
             }
-        } else if (preference == mAutoHBMSwitch) {
-            Boolean enabled = (Boolean) newValue;
-            SharedPreferences.Editor prefChange = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
-            prefChange.putBoolean(KEY_AUTO_HBM_SWITCH, enabled).commit();
-            Utils.enableService(getContext());
         } else {
             Constants.setPreferenceInt(getContext(), preference.getKey(), Integer.parseInt((String) newValue));
         }
         return true;
-    }
-
-    public static boolean isAUTOHBMEnabled(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(DeviceSettings.KEY_AUTO_HBM_SWITCH, false);
     }
 
     @Override
