@@ -31,7 +31,7 @@ namespace implementation {
 using ::android::sp;
 using ::android::hardware::Return;
 using ::android::hardware::Void;
-using ::vendor::lineage::biometrics::fingerprint::inscreen::V1_0::IFingerprintInscreenCallback;
+using ::vendor::lineage::biometrics::fingerprint::inscreen::V1_1::IFingerprintInscreenCallback;
 using ::vendor::oneplus::fingerprint::extension::V1_0::IVendorFingerprintExtensions;
 using ::vendor::oneplus::hardware::display::V1_0::IOneplusDisplay;
 
