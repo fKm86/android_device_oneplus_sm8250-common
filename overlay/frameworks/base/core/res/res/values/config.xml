@@ -362,4 +362,7 @@
     <!-- Boolean indicating whether the HWC setColorTransform function can be performed efficiently
          in hardware. -->
     <bool name="config_setColorTransformAccelerated">true</bool>
+
+    <!-- Whether to show a custom view for FOD -->
+    <bool name="config_needCustomFODView">true</bool>
 </resources>
