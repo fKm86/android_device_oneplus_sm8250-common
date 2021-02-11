@@ -27,6 +27,9 @@ persist.vendor.dpm.feature=9
 # Fingerprint
 vendor.boot.fingerprintbstate=orange
 
+# FUSE passthrough
+persist.sys.fuse.passthrough.enable=true
+
 # IMS
 persist.dbg.volte_avail_ovr=1
 persist.dbg.vt_avail_ovr=1
