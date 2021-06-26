@@ -85,6 +85,18 @@
             </intent-filter>
         </service>
 
+        <!-- DC-Dimming Tile -->
+        <service
+            android:name=".Services.DCModeTileService"
+            android:icon="@drawable/ic_dc_mode"
+            android:label="@string/tile_dc_mode"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action
+                    android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
+
         <!-- Dolby Tile Service -->
         <service
             android:name=".Services.DolbyTileService"

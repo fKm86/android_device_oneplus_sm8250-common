@@ -40,7 +40,8 @@
     <string name="auto_hbm_threshold_summary">Adjust peak luminance of the display </string>
     <string name="tile_hbm_mode">High brightness</string>
     <string name="dc_mode_summary">Dim backlight by adjusting DC current drawn to the display</string>
-    <string name="dc_mode_title">Automatic DC Dimming</string>
+    <string name="dc_mode_title">DC Dimming</string>
+    <string name="tile_dc_mode">DC Dimming</string>
 
     <!-- Dolby -->
     <string name="dolby_category">Dolby</string>
