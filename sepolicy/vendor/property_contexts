@@ -1,4 +1,3 @@
-persist.vendor.bluetooth.a2dp.            u:object_r:vendor_bluetooth_prop:s0
 odm.ril.radio.status.sim1                 u:object_r:vendor_radio_prop:s0
 odm.ril.radio.status.sim2                 u:object_r:vendor_radio_prop:s0
 persist.radio.snapshot_enabled            u:object_r:vendor_radio_prop:s0
