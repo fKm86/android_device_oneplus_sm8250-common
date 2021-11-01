@@ -1640,7 +1640,6 @@ vendor/etc/firmware/wkeyota.mdt
 vendor/bin/cnss-daemon
 
 # WiFi Display (system)
--system/framework/WfdCommon.jar
 -system_ext/priv-app/WfdService/WfdService.apk
 system_ext/bin/wfdservice
 system_ext/etc/init/wfdservice.rc
