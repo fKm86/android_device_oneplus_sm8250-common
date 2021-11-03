@@ -18,7 +18,6 @@
 package org.havoc.device.DeviceSettings.Services;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Icon;
 import android.service.quicksettings.Tile;

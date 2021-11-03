@@ -25,8 +25,6 @@ import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 import androidx.preference.PreferenceManager;
 
-import java.lang.IllegalArgumentException;
-
 import org.havoc.device.DeviceSettings.ModeSwitch.HBMModeSwitch;
 import org.havoc.device.DeviceSettings.Utils.Utils;
 
