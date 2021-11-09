@@ -1,0 +1,1 @@
+allow hal_audio_default vendor_db_security_prop:file { read };
