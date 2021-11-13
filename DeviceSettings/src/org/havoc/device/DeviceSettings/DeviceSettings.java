@@ -26,7 +26,7 @@ import android.content.res.Resources;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Vibrator;
+import android.os.VibrationEffect;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -54,8 +54,7 @@ import org.havoc.device.DeviceSettings.Preference.SwitchPreference;
 import org.havoc.device.DeviceSettings.Preference.VibratorStrengthPreference;
 import org.havoc.device.DeviceSettings.Services.VolumeService;
 import org.havoc.device.DeviceSettings.Services.FPSInfoService;
-import org.havoc.device.DeviceSettings.Utils.Utils;
-import org.havoc.device.DeviceSettings.Utils.FileUtils;
+import org.havoc.device.DeviceSettings.Utils.*;
 
 public class DeviceSettings extends PreferenceFragment
         implements Preference.OnPreferenceChangeListener {
@@ -76,10 +75,8 @@ public class DeviceSettings extends PreferenceFragment
     private static final String PREF_DOZE = "advanced_doze_settings";
 
     private static final String FILE_LEVEL = "/sys/devices/platform/soc/a8c000.i2c/i2c-3/3-005a/leds/vibrator/level";
-    private static final long testVibrationPattern[] = {0,50};
     public static final String DEFAULT = "3";
 
-    private Vibrator mVibrator;
     private DolbySwitch mDolbySwitch;
     private Preference mDozeSettings;
     private static SwitchPreference mFpsInfo;
@@ -163,7 +160,6 @@ public class DeviceSettings extends PreferenceFragment
         mGameModeSwitch.setChecked(GameModeSwitch.isCurrentlyEnabled(this.getContext()));
         mGameModeSwitch.setOnPreferenceChangeListener(new GameModeSwitch());
 
-        mVibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         mVibratorStrengthPreference =  (VibratorStrengthPreference) findPreference(KEY_VIBSTRENGTH);
@@ -247,7 +243,7 @@ public class DeviceSettings extends PreferenceFragment
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
             sharedPrefs.edit().putInt(KEY_VIBSTRENGTH, value).commit();
             Utils.writeValue(FILE_LEVEL, String.valueOf(value));
-            mVibrator.vibrate(testVibrationPattern, -1);
+            VibrationUtils.doHapticFeedback(getContext(), VibrationEffect.EFFECT_CLICK);
         }
         return true;
     }
