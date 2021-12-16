@@ -26,6 +26,12 @@ $(call inherit-product, vendor/oneplus/sm8250-common/sm8250-common-vendor.mk)
 # Inherit packages from vendor/oneplus/addons/camera
 $(call inherit-product, vendor/oneplus/addons/camera/camera-vendor.mk)
 
+# Inherit OnePlus-fwk from vendor/oneplus/extras
+$(call inherit-product, vendor/oneplus/extras/OnePlus-fwk.mk)
+
+# Inherit WfdCommon from vendor/oneplus/extras
+$(call inherit-product, vendor/oneplus/extras/WfdCommon.mk)
+
 # Include new Interfaces makefile
 $(call inherit-product, $(LOCAL_PATH)/interfaces.mk)
 
