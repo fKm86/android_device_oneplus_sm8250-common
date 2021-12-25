@@ -20,18 +20,14 @@ package org.havoc.device.DeviceSettings;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.os.Vibrator;
 import android.provider.Settings;
-import android.telephony.SubscriptionManager;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,7 +37,6 @@ import android.widget.ListView;
 import android.view.Window;
 import android.view.WindowManager;
 import android.util.Log;
-import android.widget.Toast;
 import androidx.preference.PreferenceFragment;
 import androidx.preference.PreferenceManager;
 import androidx.preference.ListPreference;
@@ -51,8 +46,6 @@ import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.TwoStatePreference;
-
-import com.qualcomm.qcrilmsgtunnel.IQcrilMsgTunnel;
 
 import org.havoc.device.DeviceSettings.Doze.DozeSettingsActivity;
 import org.havoc.device.DeviceSettings.ModeSwitch.*;
@@ -75,7 +68,6 @@ public class DeviceSettings extends PreferenceFragment
     public static final String KEY_FPS_INFO_POSITION = "fps_info_position";
     public static final String KEY_FPS_INFO_COLOR = "fps_info_color";
     public static final String KEY_FPS_INFO_TEXT_SIZE = "fps_info_text_size";
-    public static final String KEY_NR_MODE_SWITCHER = "nr_mode_switcher";
     public static final String KEY_GAME_SWITCH = "game_mode";
     public static final String KEY_VIBSTRENGTH = "vib_strength";
 
@@ -86,7 +78,6 @@ public class DeviceSettings extends PreferenceFragment
     private static final long testVibrationPattern[] = {0,50};
     public static final String DEFAULT = "3";
 
-    private Protocol mProtocol;
     private Vibrator mVibrator;
     private DolbySwitch mDolbySwitch;
     private Preference mDozeSettings;
@@ -116,22 +107,6 @@ public class DeviceSettings extends PreferenceFragment
         win.setNavigationBarDividerColor(res.getColor(R.color.primary_color));
 
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-
-        Intent mIntent = new Intent();
-        mIntent.setClassName("com.qualcomm.qcrilmsgtunnel", "com.qualcomm.qcrilmsgtunnel.QcrilMsgTunnelService");
-        getContext().bindService(mIntent, new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                IQcrilMsgTunnel tunnel = IQcrilMsgTunnel.Stub.asInterface(service);
-                if (tunnel != null)
-                    mProtocol = new Protocol(tunnel);
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                mProtocol = null;
-            }
-        }, getContext().BIND_AUTO_CREATE);
 
         mMuteMedia = (TwoStatePreference) findPreference(KEY_MUTE_MEDIA);
         mMuteMedia.setChecked(PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(DeviceSettings.KEY_MUTE_MEDIA, false));
@@ -170,9 +145,6 @@ public class DeviceSettings extends PreferenceFragment
 
         mFpsInfoTextSizePreference = (CustomSeekBarPreference) findPreference(KEY_FPS_INFO_TEXT_SIZE);
         mFpsInfoTextSizePreference.setOnPreferenceChangeListener(this);
-
-        mNrModeSwitcher = (ListPreference) findPreference(KEY_NR_MODE_SWITCHER);
-        mNrModeSwitcher.setOnPreferenceChangeListener(this);
 
         mGameModeSwitch = (TwoStatePreference) findPreference(KEY_GAME_SWITCH);
         if (GameModeSwitch.isSupported()) {
@@ -263,9 +235,6 @@ public class DeviceSettings extends PreferenceFragment
                     restartFpsInfo(mContext);
                 }
             }
-        } else if (preference == mNrModeSwitcher) {
-            int mode = Integer.parseInt(newValue.toString());
-            return setNrModeChecked(mode);
         } else if (preference == mVibratorStrengthPreference) {
     	    int value = Integer.parseInt(newValue.toString());
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -318,30 +287,5 @@ public class DeviceSettings extends PreferenceFragment
         Intent fpsinfo = new Intent(context, FPSInfoService.class);
         context.stopService(fpsinfo);
         context.startService(fpsinfo);
-    }
-
-    private boolean setNrModeChecked(int mode) {
-        switch (mode) {
-            case 0:
-                return setNrModeChecked(Protocol.NR_5G_DISABLE_MODE_TYPE.NAS_NR5G_DISABLE_MODE_SA);
-            case 1:
-                return setNrModeChecked(Protocol.NR_5G_DISABLE_MODE_TYPE.NAS_NR5G_DISABLE_MODE_NSA);
-            default:
-                return setNrModeChecked(Protocol.NR_5G_DISABLE_MODE_TYPE.NAS_NR5G_DISABLE_MODE_NONE);
-        }
-    }
-
-    private boolean setNrModeChecked(Protocol.NR_5G_DISABLE_MODE_TYPE mode) {
-        if (mProtocol == null) {
-            Toast.makeText(getContext(), R.string.service_not_ready, Toast.LENGTH_LONG).show();
-            return false;
-        }
-        int index = SubscriptionManager.getSlotIndex(SubscriptionManager.getDefaultDataSubscriptionId());
-        if (index == SubscriptionManager.INVALID_SIM_SLOT_INDEX) {
-            Toast.makeText(getContext(), R.string.unavailable_sim_slot, Toast.LENGTH_LONG).show();
-            return false;
-        }
-        new Thread(() -> mProtocol.setNrMode(index, mode)).start();
-        return true;
     }
 }
