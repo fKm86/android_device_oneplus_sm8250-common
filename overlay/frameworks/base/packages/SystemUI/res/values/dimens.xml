@@ -16,6 +16,9 @@
 */
 -->
 <resources>
+    <!-- Starting padding for a left-aligned quick status bar clock -->
+    <dimen name="status_bar_left_clock_starting_padding">@dimen/status_bar_padding_start</dimen>
+
     <!--  Allow CornerHandleView and PathSpecCornerPathRenderer to decouple from corner-radius -->
     <dimen name="config_rounded_mask_size_bottom">118px</dimen>
 
