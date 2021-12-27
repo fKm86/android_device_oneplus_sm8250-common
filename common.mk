@@ -356,6 +356,11 @@ PRODUCT_PACKAGES += \
     libipanat \
     liboffloadhal
 
+# libshim
+PRODUCT_PACKAGES += \
+    libshim_imsvidecoder \
+    libshim_libcdfw_remote_api
+
 # Media
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
@@ -468,7 +473,6 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 PRODUCT_PACKAGES += \
     ims-ext-common \
     ims_ext_common.xml \
-    libshim_imsvidecoder \
     qti-telephony-hidl-wrapper \
     qti_telephony_hidl_wrapper.xml \
     qti-telephony-hidl-wrapper-prd \
