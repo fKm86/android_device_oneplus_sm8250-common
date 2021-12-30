@@ -16,6 +16,9 @@
 #libjson
 $(call inherit-product, external/json-c/Android.configure.mk)
 
+# Inherit WfdCommon from vendor/oneplus/extras
+$(call inherit-product, vendor/oneplus/extras/WfdCommon.mk)
+
 # Enable updating of APEXes
 $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
@@ -554,9 +557,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     libnl \
     libwfdaac_vendor
-
-PRODUCT_BOOT_JARS += \
-    WfdCommon
 
 PRODUCT_BUILD_SUPER_PARTITION := false
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
