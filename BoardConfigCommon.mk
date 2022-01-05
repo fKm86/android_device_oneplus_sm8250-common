@@ -186,8 +186,10 @@ include device/qcom/sepolicy_vndr/SEPolicy.mk
 include device/qcom/sepolicy-legacy-um/SEPolicy.mk
 include device/arrow/sepolicy/common/sepolicy.mk
 
-BOARD_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/vendor
 SELINUX_IGNORE_NEVERALLOWS := true
+SELINUX_IGNORE_NEVERALLOWS_ON_USER := true
+
+BOARD_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/vendor
 
 # Verified Boot
 BOARD_AVB_ENABLE := true
