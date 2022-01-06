@@ -183,7 +183,6 @@ VENDOR_SECURITY_PATCH := 2021-12-01
 
 # Sepolicy
 include device/qcom/sepolicy_vndr/SEPolicy.mk
-include device/qcom/sepolicy-legacy-um/SEPolicy.mk
 include device/arrow/sepolicy/common/sepolicy.mk
 
 SELINUX_IGNORE_NEVERALLOWS := true
