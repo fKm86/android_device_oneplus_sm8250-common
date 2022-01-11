@@ -6,17 +6,23 @@ binder_call(hal_fingerprint_default, hal_display_default)
 allow hal_fingerprint_default vendor_hal_perf_hwservice:hwservice_manager find;
 
 allow hal_fingerprint_default fingerprintd_device:chr_file rw_file_perms;
-allow hal_fingerprint_default tee_device:chr_file rw_file_perms;
-allow hal_fingerprint_default vendor_qdsp_device:chr_file rw_file_perms;
-allow hal_fingerprint_default vendor_xdsp_device:chr_file rw_file_perms;
+allow hal_fingerprint_default hal_display_hwservice:hwservice_manager find;
+allow hal_fingerprint_default init:unix_stream_socket connectto;
 allow hal_fingerprint_default mnt_vendor_file:dir search;
 allow hal_fingerprint_default oem_file:dir { add_name search write };
 allow hal_fingerprint_default oem_file:file create;
-allow hal_fingerprint_default sysfs:file write;
-allow hal_fingerprint_default sysfs_livedisplay_tuneable:file { getattr open read write };
-allow hal_fingerprint_default hal_display_hwservice:hwservice_manager find;
 allow hal_fingerprint_default proc_touchpanel:dir search;
 allow hal_fingerprint_default proc_touchpanel:file rw_file_perms;
+allow hal_fingerprint_default property_socket:sock_file write;
+allow hal_fingerprint_default public_adsprpcd_file:file { getattr open read };
+allow hal_fingerprint_default sysfs:file write;
+allow hal_fingerprint_default sysfs_livedisplay_tuneable:file { getattr open read write };
+allow hal_fingerprint_default tee_device:chr_file rw_file_perms;
+allow hal_fingerprint_default vendor_fingerprint_prop:property_service set;
+allow hal_fingerprint_default vendor_qdsp_device:chr_file rw_file_perms;
+allow hal_fingerprint_default vendor_sysfs_battery_supply:dir search;
+allow hal_fingerprint_default vendor_sysfs_battery_supply:file { open read };
+allow hal_fingerprint_default vendor_xdsp_device:chr_file rw_file_perms;
 
 allow hal_fingerprint_default sysfs_fod:file rw_file_perms;
 

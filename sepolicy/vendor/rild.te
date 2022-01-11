@@ -11,3 +11,4 @@ allow rild vendor_diag_device:chr_file rw_file_perms;
 
 allow rild proc:file w_file_perms;
 allow rild proc_net:file w_file_perms;
+allow rild vendor_oem_bluetooth_prop:property_service set;
