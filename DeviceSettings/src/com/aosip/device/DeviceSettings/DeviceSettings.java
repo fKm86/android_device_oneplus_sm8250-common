@@ -17,11 +17,17 @@
 */
 package com.aosip.device.DeviceSettings;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.telephony.SubscriptionManager;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragment;
@@ -31,16 +37,23 @@ import androidx.preference.TwoStatePreference;
 import com.aosip.device.DeviceSettings.ModeSwitch.DCModeSwitch;
 import com.aosip.device.DeviceSettings.ModeSwitch.HBMModeSwitch;
 
+import com.qualcomm.qcrilmsgtunnel.IQcrilMsgTunnel;
+
 public class DeviceSettings extends PreferenceFragment
         implements Preference.OnPreferenceChangeListener {
 
     public static final String KEY_HBM_SWITCH = "hbm";
     public static final String KEY_DC_SWITCH = "dc";
+    public static final String KEY_NR_MODE_SWITCHER = "nr_mode_switcher";
 
     public static final String KEY_SETTINGS_PREFIX = "device_setting_";
 
     private TwoStatePreference mHBMModeSwitch;
     private TwoStatePreference mDCModeSwitch;
+
+    private static ListPreference mNrModeSwitcher;
+
+    private Protocol mProtocol;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -51,10 +64,29 @@ public class DeviceSettings extends PreferenceFragment
         mDCModeSwitch.setChecked(DCModeSwitch.isCurrentlyEnabled());
         mDCModeSwitch.setOnPreferenceChangeListener(new DCModeSwitch());
 
+        Intent mIntent = new Intent();
+        mIntent.setClassName("com.qualcomm.qcrilmsgtunnel", "com.qualcomm.qcrilmsgtunnel.QcrilMsgTunnelService");
+        getContext().bindService(mIntent, new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                IQcrilMsgTunnel tunnel = IQcrilMsgTunnel.Stub.asInterface(service);
+                if (tunnel != null)
+                    mProtocol = new Protocol(tunnel);
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                mProtocol = null;
+            }
+        }, getContext().BIND_AUTO_CREATE);
+
         mHBMModeSwitch = findPreference(KEY_HBM_SWITCH);
         mHBMModeSwitch.setEnabled(HBMModeSwitch.isSupported());
         mHBMModeSwitch.setChecked(HBMModeSwitch.isCurrentlyEnabled());
         mHBMModeSwitch.setOnPreferenceChangeListener(this);
+
+        mNrModeSwitcher = (ListPreference) findPreference(KEY_NR_MODE_SWITCHER);
+        mNrModeSwitcher.setOnPreferenceChangeListener(this);
     }
 
     @Override
@@ -75,7 +107,34 @@ public class DeviceSettings extends PreferenceFragment
             } else {
                 this.getContext().stopService(hbmIntent);
             }
+        } else if (preference == mNrModeSwitcher) {
+            int mode = Integer.parseInt(newValue.toString());
+            return setNrModeChecked(mode);
+	}
+        return true;
+    }
+
+    private boolean setNrModeChecked(int mode) {
+        if (mode == 0) {
+            return setNrModeChecked(Protocol.NR_5G_DISABLE_MODE_TYPE.NAS_NR5G_DISABLE_MODE_SA);
+        } else if (mode == 1) {
+            return setNrModeChecked(Protocol.NR_5G_DISABLE_MODE_TYPE.NAS_NR5G_DISABLE_MODE_NSA);
+        } else {
+            return setNrModeChecked(Protocol.NR_5G_DISABLE_MODE_TYPE.NAS_NR5G_DISABLE_MODE_NONE);
         }
+    }
+
+    private boolean setNrModeChecked(Protocol.NR_5G_DISABLE_MODE_TYPE mode) {
+        if (mProtocol == null) {
+            Toast.makeText(getContext(), R.string.service_not_ready, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        int index = SubscriptionManager.getSlotIndex(SubscriptionManager.getDefaultDataSubscriptionId());
+        if (index == SubscriptionManager.INVALID_SIM_SLOT_INDEX) {
+            Toast.makeText(getContext(), R.string.unavailable_sim_slot, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        new Thread(() -> mProtocol.setNrMode(index, mode)).start();
         return true;
     }
 }

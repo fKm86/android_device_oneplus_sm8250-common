@@ -22,6 +22,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="com.qualcomm.permission.USE_QCRIL_MSG_TUNNEL" />
 
     <protected-broadcast android:name="com.aosip.device.DeviceSettings.UPDATE_SETTINGS" />
 

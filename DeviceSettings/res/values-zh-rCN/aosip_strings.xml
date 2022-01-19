@@ -60,4 +60,13 @@
     <string name="touchscreen_gesture_action_volume_down">降低媒体音量</string>
     <string name="touchscreen_gesture_action_volume_up">提高媒体音量</string>
     <string name="touchscreen_gesture_action_ambient_display">环境显示</string>
+    <!-- Network -->
+    <string name="network_title">网络</string>
+    <string name="nr_mode_switcher_title">5G 模式切换</string>
+    <string name="nsa_only">仅 NSA</string>
+    <string name="sa_only">仅 SA</string>
+    <string name="nsa_sa">NSA + SA</string>
+    <string name="nr_mode_switcher_warning">重启/切换数据卡后请重新设置</string>
+    <string name="service_not_ready">服务未启动，请重试</string>
+    <string name="unavailable_sim_slot">无法获取当前使用移动数据的卡槽，请重试</string>
 </resources>

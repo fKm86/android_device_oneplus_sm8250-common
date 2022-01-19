@@ -61,4 +61,13 @@
     <string name="touchscreen_gesture_action_volume_down">Lower media volume</string>
     <string name="touchscreen_gesture_action_volume_up">Raise media volume</string>
     <string name="touchscreen_gesture_action_ambient_display">Show ambient display</string>
+    <!-- Network -->
+    <string name="network_title">Network</string>
+    <string name="nr_mode_switcher_title">5G Modes Switcher</string>
+    <string name="nsa_only">NSA Only</string>
+    <string name="sa_only">SA Only</string>
+    <string name="nsa_sa">NSA + SA</string>
+    <string name="nr_mode_switcher_warning">Please set again after reboot/changed data sim card</string>
+    <string name="service_not_ready">Service not ready, please try again</string>
+    <string name="unavailable_sim_slot">Unable to get current mobile data slot, please try again</string>
 </resources>
