@@ -1,0 +1,1 @@
+allow wait_for_keymaster self:capability sys_admin;
