@@ -32,9 +32,6 @@ $(call inherit-product, vendor/oneplus/extras/OnePlus-fwk.mk)
 # Inherit WfdCommon from vendor/oneplus/extras
 $(call inherit-product, vendor/oneplus/extras/WfdCommon.mk)
 
-# Include new Interfaces makefile
-$(call inherit-product, $(LOCAL_PATH)/interfaces.mk)
-
 # Additional native libraries
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/misc/public.libraries.txt:$(TARGET_COPY_OUT_VENDOR)/etc/public.libraries.txt
