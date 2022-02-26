@@ -465,10 +465,6 @@ PRODUCT_PACKAGES += \
     KeyHandler \
     tri-state-key-calibrate
 
-# tri-state-key
-PRODUCT_PACKAGES += \
-    tri-state-key_daemon
-
 # Update engine
 PRODUCT_PACKAGES += \
     update_engine \
