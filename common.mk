@@ -27,7 +27,7 @@ PRODUCT_COPY_FILES += \
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay \
-    $(LOCAL_PATH)/overlay-aosp
+    $(LOCAL_PATH)/overlay-xtended
 
 PRODUCT_ENFORCE_RRO_TARGETS := *
 
@@ -496,6 +496,9 @@ PRODUCT_COPY_FILES += \
 # Seccomp policy
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/seccomp/mediacodec.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediacodec.policy
+
+# UDFPS animations
+EXTRA_UDFPS_ANIMATIONS := true
 
 # WiFi
 PRODUCT_PACKAGES += \
